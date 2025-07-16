@@ -1,7 +1,7 @@
 from math import ceil
 
 """
-Generate all kind of things
+Generate sequences for testbenches easily.
 """
 
 class Sequence:
@@ -83,4 +83,3 @@ class Sequence:
     
     def __str__(self):
         return "[Sequence: " + self.name_sequence + "]"
-        
