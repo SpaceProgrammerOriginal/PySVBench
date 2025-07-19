@@ -80,3 +80,44 @@ class Testvector(Sequence):
     """
 
     pass #literally is simply a direct wrapper of Sequence.
+
+class Testbench:
+
+    """
+    Generates a full testbench of systemverilog, consisting on a group of sequences.
+    """
+
+    def __init__(self, testbench_name: str,  *sequences: Sequence, filepath: str = "", ):
+
+        """
+        - testbench_name = the name of the testbench. It becomes the name of the module that will have the testbench in systemverilog
+        - *sequences = all the sequences you want for the testbench.
+        - filepath = the result filepath of the testbench. By default is [testbench name].sv
+        """
+
+        self.testbench_name = testbench_name
+        self.filepath = filepath
+        self.sequences = list(sequences)
+
+        self.code = ""
+
+    def set_sequences(self, *sequences: Sequence):
+
+        self.sequences = list(sequences)
+
+    def update_testbench(self):
+
+        """
+        Creates (if not created) and updates the internal representation of the testbench
+        """
+
+        self.code = "module " + self.testbench_name + "();\n"
+
+        initial_code = "initial begin\n"
+        always_code = "always begin\n"
+
+        for sequence in self.sequences:
+            pass
+
+
+        self.code += "    var logic"
