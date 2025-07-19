@@ -49,3 +49,26 @@ class Sequence:
     def set_elements(self, elements: list[str]):
 
         self.sequence = elements
+
+class Clock(Sequence):
+
+    """
+    A sequence representing a clock.
+    """
+
+    def __init__(self, name, period: int):
+
+        def clock_generator():
+
+            while True:
+                yield "0"
+                yield "1"
+
+        self.period = period
+        gen = clock_generator()
+
+        super().__init__(name=name, bits=1, sequence=[], generator=gen, sequence_lenght=-1)
+
+    def generate(self, lenght_override = -1):
+
+        return super().generate(lenght_override)
