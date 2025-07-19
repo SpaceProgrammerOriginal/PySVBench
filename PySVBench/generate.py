@@ -72,3 +72,11 @@ class Clock(Sequence):
     def generate(self, lenght_override = -1):
 
         return super().generate(lenght_override)
+    
+class Testvector(Sequence):
+    
+    """
+    A sequence representing a vector of values.
+    """
+
+    pass #literally is simply a direct wrapper of Sequence.
