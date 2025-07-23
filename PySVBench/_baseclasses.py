@@ -13,11 +13,10 @@ class BlockType(Enum):
 
 class CodeBlock:
 
-    def __init__(self, blocktype: BlockType, metadata: dict = {}, codegen: list[str] = []):
-        
+    def __init__(self, blocktype: BlockType, metadata: dict = None, codegen: list[str] = None):
         self.blocktype = blocktype
-        self.metadata = metadata
-        self.codegen = codegen
+        self.metadata = metadata if metadata is not None else {}
+        self.codegen = codegen if codegen is not None else []
 
 class TestbenchSignal:
 
