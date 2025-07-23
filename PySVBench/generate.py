@@ -1,9 +1,9 @@
-from .basetypes import TestbenchSignal as _TestbenchSignal
-from .basetypes import TestbenchSequence as _TestbenchSequence
+from ._baseclasses import TestbenchSignal as _TestbenchSignal
+from ._baseclasses import TestbenchSequence as _TestbenchSequence
 from .basetypes import Clock as _Clock
 from .basetypes import OutputSignal as _OutputSignal
-from .basetypes import CodeBlock as _CodeBlock
-from .basetypes import BlockType as _BlockType
+from ._baseclasses import CodeBlock as _CodeBlock
+from ._baseclasses import BlockType as _BlockType
 
 """
 Generate sequences for testbenches easily.
@@ -45,8 +45,8 @@ class Testbench:
         Creates (if not created) and updates the internal representation of the testbench
         """
 
-        codeblocks = self._update_testbench_phase1()
-        final_str = self._update_testbench_phase2(codeblocks)
+        codeblocks, order_elements = self._update_testbench_phase1()
+        final_str = self._update_testbench_phase2(codeblocks, order_elements)
         self._update_testbench_phase3(final_str)
 
     def _update_testbench_phase1(self):
@@ -86,9 +86,9 @@ class Testbench:
             order_elements.append(output_element.name)
             output_element.generate_code(codeblocks)
 
-        return codeblocks
+        return codeblocks, order_elements
     
-    def _update_testbench_phase2(self, codeblocks: list[_CodeBlock]):
+    def _update_testbench_phase2(self, codeblocks: list[_CodeBlock], order_elements: list[str]):
 
         """
         Second phase of updating testbench. Consists on generating the final string.
@@ -129,6 +129,10 @@ class Testbench:
 
             else:
                 raise NotImplementedError("Currently no more codeblock types implemented than EXTERN, INITIAL, and ALWAYS!")
+            
+        #add the endmodule and the dut
+        final_str += "    " + self.testbench_element + " dut(" + ",".join(order_elements) + ");\n"
+        final_str += "endmodule"
             
         return final_str
     
