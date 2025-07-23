@@ -109,29 +109,32 @@ class Testbench:
                 for line in codeblock.codegen:
                     final_str += "    " + line + "\n"
 
+                final_str += "\n" #extra line jump at the end
+
             elif codeblock.blocktype == _BlockType.INITIAL:
 
                 #create the block and add it to the final string
                 final_str += "    " + "initial begin\n"
                 for line in codeblock.codegen:
                     final_str += "    " * 2 + line + "\n"
-                final_str += "    " + "end\n"
+                final_str += "    " + "end\n\n"
 
             elif codeblock.blocktype == _BlockType.ALWAYS:
                 
                 if "clock" in codeblock.metadata:
+                    final_str += "    " + codeblock.codegen[0] + "\n" #put the first element "always @(posedge whatever)" directly
+                    codeblock.codegen.pop(0) #pop the first element, so it doesn't appear in the next iteration
 
-                    final_str += "    " + "always @(posedge " + codeblock.metadata["clock"].name + ") begin\n"
                     for line in codeblock.codegen:
                         final_str += "    " * 2 + line + "\n"
-                    final_str += "    " + "end\n"
+                    final_str += "    " + "end\n\n"
 
                 else:
 
                     final_str += "    " + "always begin\n"
                     for line in codeblock.codegen:
                         final_str += "    " * 2 + line + "\n"
-                    final_str += "    " + "end\n"
+                    final_str += "    " + "end\n\n"
 
             else:
                 raise NotImplementedError("Currently no more codeblock types implemented than EXTERN, INITIAL, and ALWAYS!")
