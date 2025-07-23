@@ -2,3 +2,4 @@ build
 dist
 PySVBench.egg-info
 test*.*
+__pycache__/
