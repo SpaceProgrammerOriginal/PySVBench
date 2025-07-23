@@ -1,6 +1,4 @@
 build
 dist
 PySVBench.egg-info
-test.py
-test.sv
-testvector_tv.mem
+test*.*
