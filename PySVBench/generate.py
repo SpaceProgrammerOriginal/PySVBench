@@ -74,14 +74,14 @@ class Testbench:
 
             order_elements.append(input_element.name)
 
-            if isinstance(input_element, _TestbenchSignal):
-                input_element.generate_code()
+            if isinstance(input_element, _TestbenchSignal) and type(input_element) != _Clock:
+                input_element.generate_code(codeblocks)
             elif isinstance(input_element, _TestbenchSequence):
                 input_element.generate(self.simulation_steps)
                 input_element.create_file()
                 input_element.generate_code(codeblocks)
-            else:
-                raise TypeError("Input element is neither TestbenchSignal nor TestbenchSequence")
+
+            #if another thing, it must be a clock, or directly ignored.
             
         for output_element in self.output_elements:
 
