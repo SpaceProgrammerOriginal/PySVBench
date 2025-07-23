@@ -15,13 +15,14 @@ class Testbench:
     Generates a full testbench of systemverilog, consisting on a group of sequences.
     """
 
-    def __init__(self, testbench_name: str, testbench_element: str, input_elements: list[_TestbenchSignal | _TestbenchSequence], output_elements: list[_OutputSignal], simulation_steps: int, filepath: str = ""):
+    def __init__(self, testbench_name: str, testbench_element: str, input_elements: list[_TestbenchSignal | _TestbenchSequence], output_elements: list[_OutputSignal], external_elements: list[_TestbenchSignal | _TestbenchSequence], simulation_steps: int, filepath: str = ""):
 
         """
         - testbench_name = the name of the testbench. It becomes the name of the module that will have the testbench in systemverilog.
         - testbench_element = the name of the module to be testbenched.
         - input_elements = all the sequences you want for the testbench.
         - output_elements = all the output elements of the testbench.
+        - external_elements = all the elements that are not used in the dut, only for controlling purposes between others.
         - simulation_steps = the number of steps that the sequences will be generated to.
         - filepath = the result filepath of the testbench. By default is [testbench name].sv
         """
@@ -30,6 +31,7 @@ class Testbench:
         self.testbench_element = testbench_element
         self.input_elements = input_elements
         self.output_elements = output_elements
+        self.external_elements = external_elements
         self.simulation_steps = simulation_steps
         self.filepath = filepath
 
@@ -85,6 +87,10 @@ class Testbench:
 
             order_elements.append(output_element.name)
             output_element.generate_code(codeblocks)
+
+        for external_element in self.external_elements:
+
+            external_element.generate_code(codeblocks) #simply generate the code, not include in order.
 
         return codeblocks, order_elements
     
