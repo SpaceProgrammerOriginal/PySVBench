@@ -125,5 +125,6 @@ class Testvector(_TestbenchSequence):
     A sequence representing a vector of values.
     """
 
-    pass #literally is simply a direct wrapper of TestbenchSequence.
+    def __init__(self, name, datatype, bits, generator, iterator_name, sequence_lenght = -1):
+        super().__init__(name, datatype, bits, [], generator, iterator_name, sequence_lenght)
 
