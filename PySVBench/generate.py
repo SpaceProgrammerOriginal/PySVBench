@@ -142,5 +142,9 @@ class Testbench:
         The final phase of updating the testbench. Consisting on writing the string to the filepath
         """
 
-        with open(self.filepath, "w") as file:
-            file.write(final_str)
+        if self.filepath == "":
+            with open(self.testbench_name + ".sv", "w") as file:
+                file.write(final_str)
+        else:
+            with open(self.filepath, "w") as file:
+                file.write(final_str)
