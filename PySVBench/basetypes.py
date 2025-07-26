@@ -15,7 +15,8 @@ class OutputSignal(_TestbenchSignal):
     A signal that represents the output of the testbenched element.
     """
 
-    pass #it is a wrapper of TestbenchSignal
+    def __init__(self, name, datatype = "logic", bits = 1):
+        super().__init__(name, datatype, bits)
 
 class ConstantSignal(_TestbenchSignal):
 
