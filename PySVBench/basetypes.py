@@ -23,7 +23,7 @@ class ConstantSignal(_TestbenchSignal):
     A constant signal.
     """
 
-    def __init__(self, name, datatype, bits, value: str):
+    def __init__(self, name, value: str, datatype = "logic", bits = 1):
         super().__init__(name, datatype, bits)
 
         self.value = value
@@ -106,7 +106,7 @@ class Clock(_TestbenchSignal):
 
 class Iterator(_TestbenchSignal):
 
-    def __init__(self, name, bits):
+    def __init__(self, name, bits = 1):
         super().__init__(name, "logic", bits)
 
     def generate_code(self, codeblocks):
@@ -125,6 +125,6 @@ class Testvector(_TestbenchSequence):
     A sequence representing a vector of values.
     """
 
-    def __init__(self, name, datatype, bits, generator, iterator_name, sequence_lenght = -1):
+    def __init__(self, name, generator, iterator_name, datatype = "logic", bits = 1, sequence_lenght = -1):
         super().__init__(name, datatype, bits, [], generator, iterator_name, sequence_lenght)
 
