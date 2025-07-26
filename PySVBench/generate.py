@@ -15,13 +15,12 @@ class Testbench:
     Generates a full testbench of systemverilog, consisting on a group of sequences.
     """
 
-    def __init__(self, testbench_name: str, testbench_element: str, input_elements: list[_TestbenchSignal | _TestbenchSequence], output_elements: list[_OutputSignal], external_elements: list[_TestbenchSignal | _TestbenchSequence], simulation_steps: int, filepath: str = ""):
+    def __init__(self, testbench_name: str, testbench_element: str, module_elements: list[_TestbenchSignal | _TestbenchSequence], external_elements: list[_TestbenchSignal | _TestbenchSequence], simulation_steps: int, filepath: str = ""):
 
         """
         - testbench_name = the name of the testbench. It becomes the name of the module that will have the testbench in systemverilog.
         - testbench_element = the name of the module to be testbenched.
-        - input_elements = all the sequences you want for the testbench.
-        - output_elements = all the output elements of the testbench.
+        - module_elements = all the elements (inputs or outputs) that go to the module.
         - external_elements = all the elements that are not used in the dut, only for controlling purposes between others.
         - simulation_steps = the number of steps that the sequences will be generated to.
         - filepath = the result filepath of the testbench. By default is [testbench name].sv
@@ -29,17 +28,16 @@ class Testbench:
 
         self.testbench_name = testbench_name
         self.testbench_element = testbench_element
-        self.input_elements = input_elements
-        self.output_elements = output_elements
+        self.module_elements = module_elements
         self.external_elements = external_elements
         self.simulation_steps = simulation_steps
         self.filepath = filepath
 
         self.code = ""
 
-    def set_input_elements(self, input_elements: list[_TestbenchSignal | _TestbenchSequence]):
+    def set_module_elements(self, module_elements: list[_TestbenchSignal | _TestbenchSequence]):
 
-        self.input_elements = input_elements
+        self.module_elements = module_elements
 
     def update_testbench(self):
 
@@ -64,29 +62,24 @@ class Testbench:
         order_elements = []
 
         #generates the code for all clocks (because clocks define extra codeblocks and must be put before for avoiding errors)
-        for input_element in self.input_elements:
+        for module_element in self.module_elements:
 
-            if type(input_element) == _Clock:
+            if type(module_element) == _Clock:
                 
-                input_element.generate_code(codeblocks)
+                module_element.generate_code(codeblocks)
 
-        for input_element in self.input_elements:
+        for module_element in self.module_elements:
 
-            order_elements.append(input_element.name)
+            order_elements.append(module_element.name)
 
-            if isinstance(input_element, _TestbenchSignal) and type(input_element) != _Clock:
-                input_element.generate_code(codeblocks)
-            elif isinstance(input_element, _TestbenchSequence):
-                input_element.generate(self.simulation_steps)
-                input_element.create_file()
-                input_element.generate_code(codeblocks)
+            if isinstance(module_element, _TestbenchSignal) and type(module_element) != _Clock:
+                module_element.generate_code(codeblocks)
+            elif isinstance(module_element, _TestbenchSequence):
+                module_element.generate(self.simulation_steps)
+                module_element.create_file()
+                module_element.generate_code(codeblocks)
 
             #if another thing, it must be a clock, or directly ignored.
-            
-        for output_element in self.output_elements:
-
-            order_elements.append(output_element.name)
-            output_element.generate_code(codeblocks)
 
         for external_element in self.external_elements:
 
