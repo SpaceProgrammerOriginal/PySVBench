@@ -113,11 +113,30 @@ class Iterator(_TestbenchSignal):
     def generate_code(self, codeblocks):
         super().generate_code(codeblocks)
 
+        done = False
+        
+        for codeblock in codeblocks:
+
+            if codeblock.blocktype == _BlockType.INITIAL:
+
+                codeblock.codegen.append(self.name + " = '0;")
+                done = True
+                break
+
+        if not done:
+            raise ReferenceError("No INITIAL block has been found!")
+        done = False #set to false for the next check
+
         for codeblock in codeblocks:
 
             if codeblock.blocktype == _BlockType.ALWAYS and "clock" in codeblock.metadata:
 
                 codeblock.codegen.append(self.name + " += 1;")
+                done = True
+                break
+        
+        if not done:
+            raise ReferenceError("No ALWAYS clocked block has been found!")
 
 #Sequence and derivatives
 class Testvector(_TestbenchSequence):
