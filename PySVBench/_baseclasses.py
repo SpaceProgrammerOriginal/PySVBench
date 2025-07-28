@@ -119,7 +119,7 @@ class TestbenchSequence:
 
             if codeblock.blocktype == BlockType.INITIAL:
 
-                codeblock.codegen.append("$readmemb(\"" + self.name + "_tv.mem" + "\", " + self.name + ");")
+                codeblock.codegen.append("$readmemb(\"" + self.name + "_tv.mem" + "\", " + self.name + "_tv" + ");")
                 done = True
 
         if not done:
