@@ -9,6 +9,16 @@ All the base class types needed for making a benchmark.
 """
 
 #Signal and derivatives
+class RefName:
+
+    """
+    Simply a literal name reference. Used for using inputs using the same var or other tricks.
+    """
+
+    def __init__(self, name):
+
+        self.name = name
+
 class OutputSignal(_TestbenchSignal):
 
     """
