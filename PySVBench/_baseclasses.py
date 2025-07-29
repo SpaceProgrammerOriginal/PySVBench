@@ -61,6 +61,8 @@ class TestbenchSignal:
                     codeblock.codegen.append("var " + self.datatype + " " + self.name + ";")
                 else:
                     codeblock.codegen.append("var " + self.datatype + "["  + str(self.bits - 1) + ":0] " + self.name + ";")
+
+                codeblock.codegen.append("") #extra space for more beautiful generation
                 done = True
                 break
 

@@ -133,7 +133,7 @@ class Testbench:
                 raise NotImplementedError("Currently no more codeblock types implemented than EXTERN, INITIAL, and ALWAYS!")
             
         #add the endmodule and the dut
-        final_str += "    " + self.testbench_element + " dut(" + ",".join(order_elements) + ");\n"
+        final_str += "    " + self.testbench_element + " dut(" + ", ".join(order_elements) + ");\n"
         final_str += "endmodule"
             
         return final_str
