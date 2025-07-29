@@ -1,7 +1,7 @@
 from ._baseclasses import TestbenchSignal as _TestbenchSignal
 from ._baseclasses import TestbenchSequence as _TestbenchSequence
 from .basetypes import Clock as _Clock
-from .basetypes import OutputSignal as _OutputSignal
+from .basetypes import RefName as _RefName
 from ._baseclasses import CodeBlock as _CodeBlock
 from ._baseclasses import BlockType as _BlockType
 
@@ -15,7 +15,7 @@ class Testbench:
     Generates a full testbench of systemverilog, consisting on a group of sequences.
     """
 
-    def __init__(self, testbench_name: str, testbench_element: str, module_elements: list[_TestbenchSignal | _TestbenchSequence], external_elements: list[_TestbenchSignal | _TestbenchSequence], simulation_steps: int, filepath: str = ""):
+    def __init__(self, testbench_name: str, testbench_element: str, module_elements: list[_TestbenchSignal | _TestbenchSequence | _RefName], external_elements: list[_TestbenchSignal | _TestbenchSequence], simulation_steps: int, filepath: str = ""):
 
         """
         - testbench_name = the name of the testbench. It becomes the name of the module that will have the testbench in systemverilog.
