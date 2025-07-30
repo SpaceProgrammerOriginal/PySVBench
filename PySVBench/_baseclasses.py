@@ -110,7 +110,9 @@ class TestbenchSequence:
                     codeblock.codegen.append("var " + self.datatype + "[" + str(self.bits-1) + ":0] " + self.name + ";")
                     codeblock.codegen.append("var " + self.datatype + "[" + str(self.bits-1) + ":0] " + self.name + "_tv[" + str(len(self.sequence)-1) + ":0];")
 
+                codeblock.codegen.append("") #extra space for more beautiful generation
                 done = True
+                break
 
         if not done:
             raise ReferenceError("EXTERN block not found!")
